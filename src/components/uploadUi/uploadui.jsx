@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import TakeQuiz from '../takeQuiz';
 
 const uploadUi = () => {
     const [activeTab, setActiveTab] = useState('Text');
@@ -81,9 +82,9 @@ const uploadUi = () => {
             const data = await res.json();
             const outputData = data;
 
-            const formattedOutput = formattedOutputFormat(outputData);
-
-            setOutput(formattedOutput);
+            // const formattedOutput = formattedOutputFormat(outputData);
+            //setOutput(formattedOutput);
+            setOutput(outputData.text);
             setIsModalOpen(true);
         } catch (error) {
             console.error("Error generating output:", error);
@@ -126,6 +127,7 @@ const uploadUi = () => {
         }
     }
     return (
+        <>
         <div className="h-screen w-screen flex flex-col items-center justify-center bg-gray-100">
             <div className="w-full max-w-2xl p-6 bg-white shadow-md rounded-lg">
                 <div className="tabs">
@@ -256,26 +258,31 @@ const uploadUi = () => {
                     </button>
                 </div>
             </div>
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
-                        <h2 className="text-lg font-bold mb-4">Output</h2>
-                        <div className="bg-gray-100 p-4 rounded-lg max-h-64 overflow-auto">
-                            {output}
-                        </div>
-                        <div className="mt-4 flex justify-end">
-                            <button className="btn btn-secondary  bg-blue-500 mr-2" onClick={handleCopyOutput}>
-                                Copy Output
-                            </button>
-                            <button className="btn" onClick={() => setIsModalOpen(false)}>
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* {isModalOpen && (
+                // <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                //     <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl w-full">
+                //         <h2 className="text-lg font-bold mb-4">Output</h2>
+                //         <div className="bg-gray-100 p-4 rounded-lg max-h-64 overflow-auto">
+                //             {output}
+                //         </div>
+                //         <div className="mt-4 flex justify-end">
+                //             <button className="btn btn-secondary  bg-blue-500 mr-2" onClick={handleCopyOutput}>
+                //                 Copy Output
+                //             </button>
+                //             <button className="btn" onClick={() => setIsModalOpen(false)}>
+                //                 Close
+                //             </button>
+                //         </div>
+                //     </div>
+                // </div>
+                <TakeQuiz closeFunction={()=> setIsModalOpen(false)} questionArray={output}/>
+            )} */}
         </div>
-    );
+        {isModalOpen && (
+            <TakeQuiz closeFunction={()=> setIsModalOpen(false)} questionArray={output}/>
+        )}
+        </>
+    )
 };
 
 export default uploadUi;
